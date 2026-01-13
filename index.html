@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Khoá Speaking - Lớp Anh thầy Kết</title>
+<title>Essay Writing - Lớp Anh thầy Kết</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <style>
+/* ===== BODY ===== */
 body {
   font-family: Arial, sans-serif;
   background-color: #fff8f0;
@@ -15,36 +17,48 @@ body {
   text-align: center;
 }
 
+/* ===== HEADER ===== */
 header {
   background-color: #ffd6ba;
-  padding: 20px 15px;
-  font-size: 28px;
+  padding: 15px 20px;
   font-weight: bold;
   color: #7a4e3e;
-  text-align: center;
   display: flex;
-  flex-direction: column; /* Link và tiêu đề xếp dọc */
+  flex-wrap: wrap;       
   align-items: center;
-  gap: 10px; /* Khoảng cách giữa link và tiêu đề */
+  justify-content: space-between;  /* Left luôn bên trái, center căn giữa */
+  gap: 15px;
 }
 
-header a {
-  font-size: 20px;
+/* Left: icon + home text */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;          /* không bị co lại */
+}
+
+.header-left a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
   color: #7a4e3e;
   text-decoration: none;
 }
 
-/* Responsive cho điện thoại nhỏ hơn 480px */
-@media (max-width: 480px) {
-  header {
-    font-size: 22px;
-    padding: 15px 10px;
-  }
-  header a {
-    font-size: 18px;
-  }
+.header-left a i {
+  font-size: 28px;
 }
 
+/* Center title */
+.header-center {
+  flex: 1;                 /* chiếm phần còn lại để căn giữa */
+  text-align: center;
+  font-size: 32px;
+}
+
+/* ===== TOP SELECT ===== */
 .top-select {
   display: flex;
   justify-content: flex-start;
@@ -59,6 +73,7 @@ select {
   background-color: #e3fdfd;
 }
 
+/* ===== WORD LIST ===== */
 .word-list {
   width: 85%;
   margin: 20px auto;
@@ -71,18 +86,28 @@ select {
 
 .word-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
   padding: 6px 10px;
   border-bottom: 1px dashed #ffb3ba;
-  transition: background-color .15s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 .word-row:last-child { border-bottom: none; }
 
 .word-row:hover {
   background-color: #fffacd;
+  transform: scale(1.02);
   cursor: pointer;
 }
 
+.tick-box {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* ===== REVIEW BOX ===== */
 .review-box {
   margin: 40px auto;
   width: 70%;
@@ -133,6 +158,7 @@ select {
   background-color: #ffb3ba;
 }
 
+/* ===== FOOTER ===== */
 footer {
   font-size: 22px;
   margin-top: 40px;
@@ -141,19 +167,81 @@ footer {
   background-color: #fff0e1;
 }
 
-.confetti {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  opacity: .9;
-  border-radius: 50%;
-  animation: pop .9s ease-out forwards;
+/* ===== WRITING SECTION ===== */
+.writing-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
 }
 
-@keyframes pop {
-  0% { transform: translate(0,0) scale(1); opacity:1;}
-  50% { transform: translate(var(--x),var(--y)) scale(1.1); opacity:1;}
-  100% { transform: translate(var(--x),var(--y)) scale(0.5); opacity:0;}
+#essayPrompt {
+  background-color: #f0f7ff;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 22px;
+  color: #004d61;
+  text-align: left;
+  width: 100%;
+}
+
+#essayText {
+  width: 100%;
+  height: 500px;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #a0e7e5;
+  resize: vertical;
+  min-height: 400px;
+  max-height: 800px;
+  font-family: Arial, sans-serif; 
+}
+
+#submitEssayBtn {
+  align-self: flex-end;
+  margin-top: 10px;
+  padding: 12px 20px;
+  font-size: 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #a0e7e5;
+  cursor: pointer;
+}
+#submitEssayBtn:hover {
+  background-color: #ffb3ba;
+}
+
+/* ===== FIREWORK ===== */
+.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: explode 0.7s ease-out forwards;
+}
+
+@keyframes explode {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(5); opacity: 0; }
+}
+
+/* ===== MEDIA QUERY ===== */
+@media (max-width: 480px) {
+  header {
+    padding: 10px 15px;
+  }
+  .header-left a {
+    font-size: 18px;
+  }
+  .header-left a i {
+    font-size: 20px;
+  }
+  .header-center {
+    font-size: 22px;
+  }
 }
 </style>
 </head>
@@ -161,27 +249,26 @@ footer {
 <body>
 
 <header>
-  <a href="https://ketng91.github.io/lopanhthayket/"
-     style="position:absolute; left:20px; top:20px; font-size:20px; 
-            color:#7a4e3e; text-decoration:none;">
-    <i class="fa-solid fa-house"></i> Lớp Anh thầy Kết
-  </a>
-  Khoá Speaking 
+  <div class="header-left">
+    <a href="https://ketng91.github.io/lopanhthayket/">
+      <i class="fa-solid fa-house"></i> Lớp Anh thầy Kết
+    </a>
+  </div>
+  <div class="header-center">
+    Essay Writing
+  </div>
 </header>
 
 <div class="top-select">
   <select id="wordList">
-    <option value="1">Free time</option>
-    <option value="2">Study</option>
-
-
-
+    <option value="1">Environment</option>
+    <option value="2">Education</option>
   </select>
 </div>
 
 <div class="word-list" id="wordContainer"></div>
 
-<div class="review-box">
+<div class="review-box" id="reviewBox">
   <div class="display-container">
     <div id="vietWord">Chọn Bộ từ vựng để bắt đầu</div>
     <div id="answer" style="display:none;"></div>
@@ -195,391 +282,236 @@ footer {
 
 <div class="review-box speaking">
   <div style="font-size:28px; color:#004d61; margin-bottom:10px;">
-    Thực hành Phản xạ nói câu tiếng Anh
+    Thực hành Writing Essay
   </div>
 
-  <div class="display-container">
-    <div id="vietSentence" style="font-size:24px; color:#607274;"></div>
-    <div id="engAnswer" style="display:none;"></div>
-  </div>
-
-  <div class="review-buttons">
-    <button onclick="showAnswer()">Đáp án</button>
-    <button onclick="nextSentence()">Tiếp theo</button>
+  <div class="writing-section">
+    <div id="essayPrompt">Chọn topic để hiển thị đề essay.</div>
+    <textarea id="essayText" placeholder="Viết bài essay ở đây..."></textarea>
+    <button id="submitEssayBtn" onclick="submitEssay()">Submit</button>
   </div>
 </div>
 
 <footer>Chúc mừng bạn đã hoàn thành bài học!</footer>
 
 <script>
+function know(){ alert("Đã biết"); }
+function dontKnow(){ alert("Chưa biết"); }
+function nextWord(){ alert("Tiếp theo"); }
+function submitEssay(){ alert("Bài essay đã được gửi!"); }
+</script>
+
+</body>
+</html>
+
+<script>
 /********** DATA từ vựng **********/
 const data = {
   1: [
-{ en:"monotonous lifestyle /ˈmɑː.nə.t̬ə.nəs ˈlaɪf.staɪl/", vn:"lối sống đơn điệu", tick:false },
-{ en:"daily schedule /ˈdeɪ.li ˈskedʒ.uːl/", vn:"thời khóa biểu hàng ngày", tick:false },
-{ en:"morning habit /ˈmɔːr.nɪŋ ˈhæb.ɪt/", vn:"thói quen buổi sáng", tick:false },
-{ en:"daily habit /ˈdeɪ.li ˈhæb.ɪt/", vn:"thói quen hàng ngày", tick:false },
-{ en:"fitness routine /ˈfɪt.nəs ruːˈtiːn/", vn:"chuỗi hoạt động rèn luyện thể chất", tick:false },
-{ en:"self-care routine /self kɛr ruːˈtiːn/", vn:"chuỗi hoạt động chăm sóc bản thân", tick:false },
-{ en:"routine task /ruːˈtiːn tæsk/", vn:"nhiệm vụ thường nhật", tick:false },
-{ en:"well-structured routine /wɛl ˈstrʌk.tʃɚd ruːˈtiːn/", vn:"thói quen có cấu trúc tốt", tick:false },
-{ en:"set in stone /sɛt ɪn stoʊn/", vn:"được cố định, không thay đổi", tick:false },
-{ en:"stick to a consistent morning routine /stɪk tu ə kənˈsɪs.tənt ˈmɔːr.nɪŋ ruːˈtiːn/", vn:"duy trì thói quen buổi sáng đều đặn", tick:false },
-{ en:"kick-start the day with /ˈkɪkˌstɑːrt ðə deɪ wɪð/", vn:"bắt đầu ngày mới với...", tick:false },
-{ en:"disrupt one’s routine /dɪsˈrʌpt wʌnz ruːˈtiːn/", vn:"làm gián đoạn thói quen", tick:false },
-{ en:"exercise regimen /ˈek.sɚ.saɪz ˈrɛdʒ.ə.mən/", vn:"chế độ tập luyện", tick:false },
-{ en:"mindfulness practice /ˈmaɪnd.fəl.nəs ˈpræk.tɪs/", vn:"thực hành chánh niệm", tick:false },
-{ en:"interest /ˈɪn.trəst/", vn:"sở thích, mối quan tâm", tick:false },
-{ en:"leisure activities /ˈliːʒər ækˈtɪv.ɪ.tiz/", vn:"hoạt động giải trí", tick:false },
-{ en:"creative pursuits /kriˈeɪ.tɪv pɚˈsuːts/", vn:"các hoạt động sáng tạo", tick:false },
-{ en:"artistic hobbies /ɑːrˈtɪs.tɪk ˈhɑː.biz/", vn:"sở thích nghệ thuật", tick:false },
-{ en:"music-related hobbies /ˈmjuː.zɪk rɪˈleɪ.tɪd ˈhɑː.biz/", vn:"sở thích liên quan đến âm nhạc", tick:false },
-{ en:"pass time /pæs taɪm/", vn:"giết thời gian", tick:false },
-{ en:"pastime /ˈpæs.taɪm/", vn:"sở thích giải trí", tick:false },
-{ en:"free-time activity /ˌfriː taɪm ækˈtɪv.ə.ti/", vn:"hoạt động thời gian rảnh", tick:false },
-{ en:"sporting activities /ˈspɔːr.tɪŋ ækˈtɪv.ɪ.tiz/", vn:"hoạt động thể thao", tick:false },
-{ en:"physical activities /ˈfɪz.ɪ.kəl ækˈtɪv.ɪ.tiz/", vn:"hoạt động thể chất", tick:false },
-{ en:"literary activities /ˈlɪt̬.ɚ.ɛr.i ækˈtɪv.ɪ.tiz/", vn:"hoạt động văn học", tick:false },
-{ en:"outdoor activities /ˌaʊtˈdɔːr ækˈtɪv.ɪ.tiz/", vn:"hoạt động ngoài trời", tick:false },
-{ en:"indoor activities /ˌɪnˈdɔːr ækˈtɪv.ɪ.tiz/", vn:"hoạt động trong nhà", tick:false },
-{ en:"recreation /ˌrek.riˈeɪ.ʃən/", vn:"giải trí", tick:false },
-{ en:"recreational facilities /ˌrek.rɪˈeɪ.ʃən.əl fəˈsɪl.ɪ.tiz/", vn:"cơ sở giải trí", tick:false },
-{ en:"amusement /əˈmjuːz.mənt/", vn:"sự vui chơi, giải trí", tick:false },
-{ en:"engagement /ɛnˈɡeɪdʒ.mənt/", vn:"sự tham gia, hứng thú", tick:false },
-{ en:"fascinating /ˈfæs.ən.eɪ.tɪŋ/", vn:"hấp dẫn, cuốn hút", tick:false },
-{ en:"enjoyment /ɪnˈdʒɔɪ.mənt/", vn:"niềm vui thích", tick:false },
-{ en:"relaxation /ˌriː.lækˈseɪ.ʃən/", vn:"sự thư giãn", tick:false },
-{ en:"enthusiasm /ɛnˈθuː.zi.æz.əm/", vn:"sự nhiệt tình", tick:false },
-{ en:"crafting /ˈkræf.tɪŋ/", vn:"làm đồ thủ công", tick:false },
-{ en:"gardening /ˈɡɑːr.dən.ɪŋ/", vn:"làm vườn", tick:false },
-{ en:"collecting /kəˈlɛk.tɪŋ/", vn:"sưu tầm", tick:false },
-{ en:"A leisure pursuit", vn:"thú tiêu khiển, hoạt động giải trí", tick:false },
-{ en:"To have a soft spot for", vn:"đặc biệt yêu thích, có cảm tình với", tick:false },
-{ en:"To have a great interest in", vn:"rất quan tâm/đam mê về", tick:false },
-{ en:"To consider myself", vn:"tự coi bản thân là", tick:false },
-{ en:"Pursue a hobby", vn:"theo đuổi sở thích", tick:false },
-{ en:"Take up a hobby", vn:"bắt đầu một sở thích mới", tick:false },
-{ en:"Engage in an activity", vn:"tham gia vào hoạt động", tick:false },
-{ en:"Be passionate about", vn:"đam mê với", tick:false },
-{ en:"Be involved in something", vn:"tham gia vào cái gì", tick:false },
-{ en:"Enjoy doing something", vn:"tận hưởng việc làm gì", tick:false },
-{ en:"Make time for", vn:"dành thời gian cho", tick:false },
-{ en:"Find time for", vn:"tìm thời gian cho", tick:false },
-{ en:"To have a whale of a time", vn:"có khoảng thời gian vui vẻ, tận hưởng tuyệt vời", tick:false },
-{ en:"Dedicate time to something", vn:"dành thời gian cho cái gì", tick:false },
-{ en:"Fit something into one's schedule", vn:"sắp xếp thời gian cho", tick:false },
-{ en:"Spend free time doing something", vn:"dành thời gian rảnh rỗi để làm gì", tick:false },
-{ en:"Get into the habit of doing something", vn:"hình thành thói quen làm gì", tick:false },
-{ en:"To have a crack at", vn:"thử làm gì đó", tick:false },
-{ en:"Build a routine", vn:"xây dựng thói quen", tick:false },
-{ en:"Have a routine", vn:"có thói quen", tick:false },
-{ en:"Stick to a routine", vn:"tuân thủ thói quen", tick:false },
-{ en:"Break the routine", vn:"thay đổi nhịp sống thường ngày", tick:false },
-{ en:"Go through the motions", vn:"làm việc một cách máy móc", tick:false },
-{ en:"Keep things on track", vn:"giữ mọi việc đúng tiến độ", tick:false },
-{ en:"Same old, same old", vn:"như mọi khi, không có gì mới", tick:false },
-{ en:"Take a break", vn:"nghỉ giải lao", tick:false },
-{ en:"Balance work and leisure", vn:"cân bằng giữa công việc và giải trí", tick:false },
-{ en:"Keep oneself busy with", vn:"làm gì để giữ cho bản thân bận rộn", tick:false },
+   { en:"fossil fuels /ˈfɒs.əl fjʊəlz/", vn:"nhiên liệu hóa thạch", tick:false },
+{ en:"renewable energy /rɪˈnjuː.ə.bəl ˈen.ə.dʒi/", vn:"năng lượng tái tạo", tick:false },
+{ en:"solar power /ˈsoʊ.lɚ ˈpaʊ.ɚ/", vn:"năng lượng mặt trời", tick:false },
+{ en:"wind energy /wɪnd ˈen.ə.dʒi/", vn:"năng lượng gió", tick:false },
+{ en:"hydroelectric power /ˌhaɪ.droʊ.ɪˈlek.trɪk ˈpaʊ.ɚ/", vn:"thủy điện", tick:false },
+{ en:"greenhouse gas emissions /ˈɡriːn.haʊs ɡæs ɪˈmɪʃ.ənz/", vn:"khí thải nhà kính", tick:false },
+{ en:"carbon footprint /ˈkɑːr.bən ˈfʊt.prɪnt/", vn:"dấu chân carbon", tick:false },
+{ en:"energy security /ˈen.ə.dʒi sɪˈkjʊr.ə.ti/", vn:"an ninh năng lượng", tick:false },
+{ en:"climate change /ˈklaɪ.mət tʃeɪndʒ/", vn:"biến đổi khí hậu", tick:false },
+{ en:"sustainable development /səˈsteɪ.nə.bəl dɪˈvel.əp.mənt/", vn:"phát triển bền vững", tick:false },
+{ en:"fossil fuel dependency /ˈfɒs.əl fjʊəl dɪˈpen.dən.si/", vn:"sự phụ thuộc vào nhiên liệu hóa thạch", tick:false },
+{ en:"renewable infrastructure /rɪˈnjuː.ə.bəl ˈɪn.frəˌstrʌk.tʃɚ/", vn:"cơ sở hạ tầng năng lượng tái tạo", tick:false },
+{ en:"energy transition /ˈen.ə.dʒi trænsˈɪʃ.ən/", vn:"chuyển đổi năng lượng", tick:false },
+{ en:"air pollution /er pəˈluː.ʃən/", vn:"ô nhiễm không khí", tick:false },
+{ en:"fossil fuel reserves /ˈfɒs.əl fjʊəl rɪˈzɜːrvz/", vn:"dự trữ nhiên liệu hóa thạch", tick:false },
+{ en:"eco-friendly /ˌiː.koʊˈfrend.li/", vn:"thân thiện môi trường", tick:false },
+{ en:"energy efficiency /ˈen.ə.dʒi ɪˈfɪʃ.ən.si/", vn:"hiệu quả năng lượng", tick:false },
+{ en:"global warming /ˌɡloʊ.bəl ˈwɔːr.mɪŋ/", vn:"nóng lên toàn cầu", tick:false },
+{ en:"technological innovation /ˌtek.nəˈlɒdʒ.ɪ.kəl ˌɪn.əˈveɪ.ʃən/", vn:"đổi mới công nghệ", tick:false },
+{ en:"fossil fuel extraction /ˈfɒs.əl fjʊəl ɪkˈstræk.ʃən/", vn:"khai thác nhiên liệu hóa thạch", tick:false }
+
   ],
-
-
   2: [
-{ en:"studious /ˈstuː.di.əs/ and diligent", vn:"chăm học và siêng năng", tick:false },
-{ en:"academic excellence /ˌæk.əˈdem.ɪk ˈɛk.səl.əns/", vn:"thành tích học tập xuất sắc", tick:false },
-{ en:"curious by nature /ˈkjʊr.i.əs baɪ ˈneɪ.tʃɚ/", vn:"tự nhiên tò mò", tick:false },
-{ en:"supportive learning environment /səˈpɔːr.tɪv ˈlɜːr.nɪŋ ɪnˈvaɪ.rən.mənt/", vn:"môi trường học tập hỗ trợ", tick:false },
-{ en:"knowledgeable and inspiring /ˈnɑː.lɪ.dʒə.bəl ænd ɪnˈspaɪ.rɪŋ/", vn:"hiểu biết và truyền cảm hứng", tick:false },
-{ en:"top-tier university /tɑːp tɪr ˌjuː.nɪˈvɝː.sə.ti/", vn:"trường đại học hàng đầu", tick:false },
-{ en:"tight-knit class /taɪt nɪt klæs/", vn:"lớp học gắn kết", tick:false },
-{ en:"hands-on experience /ˈhændz ɑn ɪkˈspɪr.i.əns/", vn:"kinh nghiệm thực hành", tick:false },
-{ en:"self-directed learner /sɛlf dəˈrɛk.tɪd ˈlɝː.nɚ/", vn:"người học tự định hướng", tick:false },
-{ en:"attend classes /əˈtɛnd ˈklæs.ɪz/", vn:"tham dự các lớp học", tick:false },
-{ en:"bachelor’s degree /ˈbætʃ.əl.ɚz dɪˈɡriː/", vn:"bằng cử nhân", tick:false },
-{ en:"master’s degree /ˈmæstərz dɪˈɡriː/", vn:"bằng thạc sĩ", tick:false },
-{ en:"distance learning /ˈdɪs.təns ˈlɝː.nɪŋ/", vn:"học từ xa", tick:false },
-{ en:"face-to-face classes /ˌfeɪs tu ˈfeɪs ˈklæs.ɪz/", vn:"lớp học trực tiếp", tick:false },
-{ en:"to give feedback /ɡɪv ˈfiːd.bæk/", vn:"đưa phản hồi", tick:false },
-{ en:"a graduation ceremony /ə ˌɡrædʒ.uˈeɪ.ʃən ˈser.ə.moʊ.ni/", vn:"lễ tốt nghiệp", tick:false },
-{ en:"higher education /ˈhaɪ.ɚ ˌed.jʊˈkeɪ.ʃən/", vn:"giáo dục đại học", tick:false },
-{ en:"an intensive course /æn ɪnˈtɛn.sɪv kɔːrs/", vn:"khóa học tăng cường", tick:false },
-{ en:"to keep up with my studies /kiːp ʌp wɪð maɪ ˈstʌd.iz/", vn:"theo kịp việc học", tick:false },
-{ en:"to learn something by heart /lɝːn ˈsʌm.θɪŋ baɪ hɑrt/", vn:"học thuộc lòng", tick:false },
-{ en:"a mature student /ə məˈtʊr ˈstuː.dənt/", vn:"sinh viên trưởng thành", tick:false },
-{ en:"to meet a deadline /mit ə ˈded.laɪn/", vn:"hoàn thành đúng hạn", tick:false },
-{ en:"to play truant /pleɪ ˈtruː.ənt/", vn:"trốn học", tick:false },
-{ en:"boarding school /ˈbɔːr.dɪŋ skuːl/", vn:"trường nội trú", tick:false },
-{ en:"state school /steɪt skuːl/", vn:"trường công lập", tick:false },
-{ en:"public school /ˈpʌb.lɪk skuːl/", vn:"trường công", tick:false },
-{ en:"private language school /ˈpraɪ.vət ˈlæŋ.ɡwɪdʒ skuːl/", vn:"trường ngôn ngữ tư thục", tick:false },
-{ en:"a single-sex school /ə ˈsɪŋ.ɡəl sɛks skuːl/", vn:"trường một giới tính", tick:false },
-{ en:"to sit an exam /sɪt æn ɪɡˈzæm/", vn:"làm bài thi", tick:false },
-{ en:"subject specialist /ˈsʌb.dʒɪkt ˈspɛʃ.əl.ɪst/", vn:"chuyên gia môn học", tick:false },
-{ en:"to take a year out /tə teɪk ə jɪr aʊt/", vn:"nghỉ 1 năm (gap year)", tick:false },
-{ en:"tuition /tʊˈɪʃ.ən/ (fees)", vn:"học phí", tick:false },
-{ en:"to work my way through university /wɝːk maɪ weɪ θru ˌjuː.nɪˈvɝː.sə.ti/", vn:"tự kiếm tiền trang trải đại học", tick:false },
-{ en:"a piece of cake /ə pis əv keɪk/", vn:"dễ như ăn bánh", tick:false },
-{ en:"admission is competitive /ədˈmɪʃ.ən ɪz kəmˈpɛt̬.ɪ.tɪv/", vn:"việc tuyển sinh cạnh tranh", tick:false },
-{ en:"breeze through something /briːz θru ˈsʌm.θɪŋ/", vn:"dễ dàng vượt qua", tick:false },
-{ en:"day in, day out /deɪ ɪn deɪ aʊt/", vn:"ngày này qua ngày khác", tick:false },
-{ en:"English-speaking classrooms /ˈɪŋ.ɡlɪʃ ˈspiː.kɪŋ ˈklæs.ruːmz/", vn:"lớp học nói tiếng Anh", tick:false },
-{ en:"major in /ˈmeɪ.dʒɚ ɪn/", vn:"chuyên ngành", tick:false },
-{ en:"overwhelming /ˌoʊ.vɚˈwel.mɪŋ/", vn:"áp đảo, quá sức", tick:false },
-{ en:"senior /ˈsiː.njɚ/", vn:"học sinh/sinh viên cuối cấp", tick:false },
-{ en:"top-notch /ˌtɑːpˈnɑːtʃ/", vn:"hàng đầu, xuất sắc", tick:false },
-{ en:"cram for exams /kræm fɔr ɪɡˈzæmz/", vn:"học nhồi nhét cho kỳ thi", tick:false },
-{ en:"Have a knack for (math/languages)", vn:"Có năng khiếu", tick:false },
-{ en:"Pick up knowledge effortlessly", vn:"Tiếp thu kiến thức một cách dễ dàng", tick:false },
-{ en:"be quick on the uptake", vn:"tiếp thu nhanh", tick:false },
-{ en:"Get good grades", vn:"Đạt điểm cao", tick:false },
-{ en:"Ace the test", vn:"Đạt điểm cao", tick:false },
-{ en:"Pass with flying colours", vn:"vượt qua với kết quả xuất sắc", tick:false },
-{ en:"Know something inside out", vn:"hiểu rất rõ, nắm vững", tick:false },
-{ en:"Hit the nail on the head", vn:"nói đúng trọng tâm, chính xác", tick:false },
-{ en:"Learn the hard way", vn:"học qua trải nghiệm khó khăn, thất bại", tick:false },
-{ en:"A quick learner", vn:"người học nhanh, tiếp thu tốt", tick:false },
-{ en:"Teach someone a lesson", vn:"cho ai một bài học", tick:false },
-{ en:"Top of the class", vn:"Học sinh giỏi nhất lớp", tick:false },
-{ en:"Go the extra mile", vn:"Làm nhiều hơn mức cần thiết", tick:false },
-{ en:"Bury myself in books", vn:"Vùi đầu vào sách vở", tick:false },
-{ en:"Hit the books", vn:"Bắt đầu học nghiêm túc", tick:false },
-{ en:"Burn the midnight oil", vn:"Làm việc khuya, thức khuya học tập", tick:false },
-{ en:"Pull an all-nighter", vn:"Thức trắng đêm để học", tick:false },
-{ en:"Learn the ropes", vn:"học những điều cơ bản để bắt đầu việc gì", tick:false },
-{ en:"Fall behind in class", vn:"Tụt lại so với các bạn", tick:false },
-{ en:"To fall behind with my studies", vn:"học chậm hơn so với những người khác", tick:false },
-{ en:"A drop in the ocean", vn:"một giọt nước giữa đại dương → quá nhỏ bé, chẳng đáng kể", tick:false },
-{ en:"A grain of sand (in/among…)", vn:"một hạt cát giữa vô số thứ khác → nhỏ bé, không đáng kể", tick:false },
-  ],
+    { en:"higher education /ˈhaɪ.ər ˌedʒ.əˈkeɪ.ʃən/", vn:"giáo dục đại học", tick:false },
+{ en:"tuition fees /tjuːˈɪʃ.ən fiːz/", vn:"học phí", tick:false },
+{ en:"financial burden /faɪˈnæn.ʃəl ˈbɜːr.dən/", vn:"gánh nặng tài chính", tick:false },
+{ en:"student loan /ˈstjuː.dənt loʊn/", vn:"khoản vay sinh viên", tick:false },
+{ en:"academic achievement /ˌæk.əˈdem.ɪk əˈtʃiːv.mənt/", vn:"thành tích học tập", tick:false },
+{ en:"equal opportunity /ˌiː.kwəl ˌɑː.pɚˈtuː.nə.t̬i/", vn:"cơ hội bình đẳng", tick:false },
+{ en:"intellectual growth /ˌɪn.t̬əlˈek.tʃu.əl ɡroʊθ/", vn:"sự phát triển trí tuệ", tick:false },
+{ en:"social mobility /ˌsoʊ.ʃəl moʊˈbɪl.ə.ti/", vn:"tính di động xã hội", tick:false },
+{ en:"merit-based /ˈmer.ɪt beɪst/", vn:"dựa trên thành tích", tick:false },
+{ en:"public funding /ˈpʌb.lɪk ˈfʌn.dɪŋ/", vn:"ngân sách công", tick:false },
+{ en:"access to education /ˈæk.ses tuː ˌedʒ.əˈkeɪ.ʃən/", vn:"tiếp cận giáo dục", tick:false },
+{ en:"knowledge acquisition /ˈnɒl.ɪdʒ ˌæk.wɪˈzɪʃ.ən/", vn:"tiếp thu kiến thức", tick:false },
+{ en:"brain drain /ˈbreɪn dreɪn/", vn:"chảy máu chất xám", tick:false },
+{ en:"career prospects /kəˈrɪər ˈprɒs.pekts/", vn:"cơ hội nghề nghiệp", tick:false },
+{ en:"economic disparity /ˌiː.kəˈnɒm.ɪk dɪˈspær.ɪ.ti/", vn:"sự chênh lệch kinh tế", tick:false },
+{ en:"inclusive education /ɪnˈkluː.sɪv ˌedʒ.əˈkeɪ.ʃən/", vn:"giáo dục hòa nhập", tick:false },
+{ en:"lifelong learning /ˌlaɪf.lɒŋ ˈlɜː.nɪŋ/", vn:"học tập suốt đời", tick:false },
+{ en:"scholarship /ˈskɒl.ɚ.ʃɪp/", vn:"học bổng", tick:false },
+{ en:"student debt /ˈstjuː.dənt det/", vn:"nợ sinh viên", tick:false },
+{ en:"educational inequality /ˌedʒ.əˈkeɪ.ʃən.əl ˌɪn.ɪˈkwɒl.ɪ.ti/", vn:"bất bình đẳng giáo dục", tick:false },
 
-
+  ]
 };
 
-/********** DATA Phản xạ nói theo topic **********/
-const speakingData = {
+/********** DATA Essay Writing theo topic **********/
+const writingPrompts = {
   1: [
-  { vn: "Tôi cảm thấy mệt mỏi với lối sống đơn điệu và muốn thử điều gì đó mới mẻ.", en: "I feel bored with my monotonous lifestyle and want to try something new." },
-  { vn: "Lịch trình hàng ngày của tôi khá bận rộn vì tôi phải đi học và làm thêm.", en: "My daily schedule is quite hectic because I have to attend classes and work part-time." },
-  { vn: "Thói quen buổi sáng của tôi luôn bắt đầu bằng một ly cà phê nóng.", en: "My morning routine always starts with a cup of hot coffee." },
-  { vn: "Việc viết nhật ký đã trở thành một thói quen hàng ngày giúp tôi giải tỏa căng thẳng.", en: "Journaling has become a daily habit that helps me relieve stress." },
-  { vn: "Tôi đang cố gắng duy trì chế độ tập luyện thể hình để cải thiện sức khỏe.", en: "I am trying to maintain a fitness routine to improve my health." },
-  { vn: "Dành thời gian chăm sóc bản thân là điều cần thiết để duy trì sức khỏe tinh thần.", en: "Taking time for a self-care routine is essential for maintaining mental health." },
-  { vn: "Kiểm tra email là một công việc định kỳ mà tôi thực hiện ngay khi đến văn phòng.", en: "Checking emails is a routine task I do as soon as I get to the office." },
-  { vn: "Một thói quen được tổ chức tốt giúp tôi quản lý thời gian hiệu quả hơn.", en: "A well-structured routine helps me manage my time more effectively." },
-  { vn: "Kế hoạch của tôi không cố định, vì vậy chúng ta có thể thay đổi nếu cần thiết.", en: "My plans aren't set in stone, so we can change them if necessary." },
-  { vn: "Rất khó để duy trì một thói quen buổi sáng nhất quán khi bạn đi du lịch thường xuyên.", en: "It’s hard to stick to a consistent morning routine when you travel frequently." },
-  { vn: "Tôi thường bắt đầu ngày mới bằng một vài động tác giãn cơ nhẹ nhàng.", en: "I usually kick-start the day with some light stretching." },
-  { vn: "Những cuộc họp đột xuất thường làm gián đoạn thói quen làm việc của tôi.", en: "Unexpected meetings often disrupt my routine." },
-  { vn: "Bác sĩ khuyên tôi nên tuân thủ chế độ tập thể dục nghiêm ngặt.", en: "The doctor advised me to follow a strict exercise regimen." },
-  { vn: "Thực hành chánh niệm giúp tôi giữ được sự bình tĩnh trong những tình huống áp lực.", en: "Mindfulness practice helps me stay calm in stressful situations." },
-  { vn: "Tôi có niềm đam mê mãnh liệt với việc học các ngôn ngữ mới.", en: "I have a keen interest in learning new languages." },
-  { vn: "Các hoạt động giải trí ở công viên công cộng rất phổ biến vào cuối tuần.", en: "Leisure activities in public parks are very popular on weekends." },
-  { vn: "Vào thời gian rảnh, tôi thường tham gia vào các hoạt động sáng tạo như vẽ tranh.", en: "In my free time, I often engage in creative pursuits like painting." },
-  { vn: "Chụp ảnh là một trong những sở thích nghệ thuật yêu thích của tôi.", en: "Photography is one of my favorite artistic hobbies." },
-  { vn: "Tôi thích các sở thích liên quan đến âm nhạc, đặc biệt là chơi đàn guitar.", en: "I enjoy music-related hobbies, especially playing the guitar." },
-  { vn: "Tôi thường nghe podcast để giết thời gian khi đang di chuyển trên xe buýt.", en: "I often listen to podcasts to pass time while commuting on the bus." },
-  { vn: "Nấu ăn là trò tiêu khiển yêu thích giúp tôi thư giãn sau giờ làm việc.", en: "Cooking is a favorite pastime that helps me relax after work." },
-  { vn: "Bơi lội là hoạt động giải trí lúc rảnh rỗi tốt nhất để rèn luyện toàn thân.", en: "Swimming is the best free-time activity for a full-body workout." },
-  { vn: "Trường học của tôi cung cấp nhiều hoạt động thể thao và văn học đa dạng.", en: "My school offers a wide range of sporting and literary activities." },
-  { vn: "Tôi thích các hoạt động ngoài trời như leo núi hơn là ngồi trong nhà.", en: "I prefer outdoor activities like hiking over staying indoors." },
-  { vn: "Công viên này là một nơi tuyệt vời để nghỉ ngơi và giải trí cho các gia đình.", en: "This park is a great place for recreation for families." },
-  { vn: "Thành phố đang đầu tư nhiều hơn vào các cơ sở giải trí cho giới trẻ.", en: "The city is investing more in recreational facilities for young people." },
-  { vn: "Hát karaoke là một hình thức giải trí phổ biến ở Việt Nam.", en: "Singing karaoke is a popular form of amusement in Vietnam." },
-  { vn: "Sự tham gia của cộng đồng là rất quan trọng đối với các sự kiện địa phương.", en: "Community engagement is vital for local events." },
-  { vn: "Tôi thấy lịch sử thế giới là một chủ đề cực kỳ thú vị.", en: "I find world history to be a fascinating subject." },
-  { vn: "Đọc sách mang lại cho tôi rất nhiều niềm vui và kiến thức.", en: "Reading books gives me a lot of enjoyment and knowledge." },
-  { vn: "Nghe nhạc không lời là cách tốt nhất để tìm thấy sự thư giãn.", en: "Listening to instrumental music is the best way to find relaxation." },
-  { vn: "Anh ấy luôn thể hiện sự nhiệt huyết rất lớn đối với các dự án tình nguyện.", en: "He always shows great enthusiasm for volunteer projects." },
-  { vn: "Làm đồ thủ công là một cách tuyệt vời để tạo ra những món quà cá nhân hóa.", en: "Crafting is a wonderful way to create personalized gifts." },
-  { vn: "Làm vườn giúp tôi kết nối với thiên nhiên và giảm căng thẳng.", en: "Gardening helps me connect with nature and reduce stress." },
-  { vn: "Sưu tầm tem là một sở thích truyền thống vẫn còn rất thú vị.", en: "Collecting stamps is a traditional hobby that is still very interesting." },
-  { vn: "Chụp ảnh phong cảnh là một thú tiêu khiển mà tôi yêu thích nhất.", en: "Landscape photography is a leisure pursuit that I enjoy the most." },
-  { vn: "Tôi đặc biệt yêu thích các bộ phim hoạt hình của Studio Ghibli.", en: "I have a soft spot for Studio Ghibli's animated movies." },
-  { vn: "Tôi rất đam mê việc học về các nền văn hóa khác nhau trên thế giới.", en: "I have a great interest in learning about different cultures around the world." },
-  { vn: "Tôi tự coi bản thân là một người hướng nội, thích những hoạt động yên tĩnh.", en: "I consider myself an introverted person who prefers quiet activities." },
-  { vn: "Thật khó để theo đuổi một sở thích khi bạn có lịch làm việc bận rộn.", en: "It’s hard to pursue a hobby when you have a busy work schedule." },
-  { vn: "Tôi dự định sẽ bắt đầu một sở thích mới như là học chơi đàn piano.", en: "I’m planning to take up a hobby like learning to play the piano." },
-  { vn: "Tôi thường tham gia vào các hoạt động tình nguyện vào cuối tuần.", en: "I often engage in an activity like volunteering on weekends." },
-  { vn: "Tôi cực kỳ đam mê việc bảo vệ môi trường và giảm thiểu rác thải nhựa.", en: "I’m passionate about protecting the environment and reducing plastic waste." },
-  { vn: "Tôi đã tham gia vào câu lạc bộ tiếng Anh của trường được hai năm rồi.", en: "I have been involved in my school's English club for two years." },
-  { vn: "Tôi tận hưởng việc nấu ăn cho gia đình vào mỗi tối Chủ nhật.", en: "I enjoy doing something like cooking for my family every Sunday evening." },
-  { vn: "Dù bận rộn đến đâu, tôi vẫn cố gắng dành thời gian cho việc tập thể dục.", en: "No matter how busy I am, I still try to make time for exercise." },
-  { vn: "Thật khó để tìm thời gian cho việc đọc sách trong mùa thi cử.", en: "It's difficult to find time for reading during the exam season." },
-  { vn: "Chúng tôi đã có một khoảng thời gian tuyệt vời tại bữa tiệc sinh nhật hôm qua.", en: "We had a whale of a time at the birthday party yesterday." },
-  { vn: "Tôi dành nhiều thời gian để rèn luyện kỹ năng viết tiếng Anh của mình.", en: "I dedicate time to something like practicing my English writing skills." },
-  { vn: "Tôi cố gắng sắp xếp việc đi bơi vào lịch trình dày đặc của mình.", en: "I try to fit something like swimming into my tight schedule." },
-  { vn: "Tôi thường dành thời gian rảnh rỗi để xem các video hướng dẫn trên YouTube.", en: "I usually spend free time doing something like watching tutorials on YouTube." },
-  { vn: "Bạn nên hình thành thói quen đọc tin tức mỗi sáng.", en: "You should get into the habit of doing something like reading news every morning." },
-  { vn: "Tôi muốn thử sức với việc lướt ván trong kỳ nghỉ hè tới.", en: "I want to have a crack at surfing during the next summer vacation." },
-  { vn: "Tôi đang cố gắng xây dựng một thói quen ngủ sớm hơn để bảo vệ sức khỏe.", en: "I'm trying to build a routine of sleeping earlier for my health." },
-  { vn: "Tôi có một thói quen cố định là luôn chuẩn bị quần áo từ tối hôm trước.", en: "I have a routine of always preparing my clothes the night before." },
-  { vn: "Rất quan trọng để tuân thủ một thói quen nếu bạn muốn đạt được mục tiêu.", en: "It’s important to stick to a routine if you want to achieve your goals." },
-  { vn: "Thỉnh thoảng tôi đi du lịch để thay đổi nhịp sống thường ngày tẻ nhạt.", en: "Sometimes I travel to break the routine of my tedious daily life." },
-  { vn: "Đừng chỉ làm việc một cách máy móc; hãy tìm kiếm niềm cảm hứng trong đó.", en: "Don't just go through the motions; find some inspiration in what you do." },
-  { vn: "Sử dụng danh sách việc cần làm giúp tôi giữ mọi việc đúng tiến độ.", en: "Using a to-do list helps me keep things on track." },
-  { vn: "Cuộc sống của tôi dạo này không có gì mới, vẫn cứ như mọi khi thôi.", en: "My life lately is just same old, same old; nothing new really." },
-  { vn: "Sau hai giờ làm việc liên tục, tôi thường nghỉ giải lao 10 phút.", en: "After two hours of continuous work, I usually take a break for 10 minutes." },
-  { vn: "Rất khó để cân bằng giữa công việc và giải trí trong xã hội hiện đại.", en: "It’s tough to balance work and leisure in modern society." },
-  { vn: "Tôi luôn giữ cho bản thân bận rộn với các dự án cá nhân để không lãng phí thời gian.", en: "I always keep myself busy with personal projects to avoid wasting time." }
-],
-
+    { prompt: "While fossil fuels are still the main source of energy for most countries, others have started to rely on renewable options such as wind and solar power. Is this an advantageous or disadvantageous trend?" }
+  ],
   2: [
-  { vn: "Từ khi còn nhỏ, tôi đã có năng khiếu học ngôn ngữ.", en: "Since I was a child, I have had a knack for languages." },
-  { vn: "Tôi thường tiếp thu kiến thức một cách dễ dàng khi xem các video minh họa.", en: "I tend to pick up knowledge effortlessly when watching visual videos." },
-  { vn: "Anh ấy tiếp thu rất nhanh, vì vậy anh ấy không bao giờ gặp khó khăn với các khái niệm mới.", en: "He is very quick on the uptake, so he never struggles with new concepts." },
-  { vn: "Tôi luôn cố gắng học tập chăm chỉ để đạt điểm cao trong các kỳ thi.", en: "I always strive to study hard to get good grades in exams." },
-  { vn: "Nếu tôi ôn tập kỹ lưỡng, tôi tin rằng mình có thể đạt điểm cao trong bài kiểm tra tới.", en: "If I revise thoroughly, I believe I can ace the test next week." },
-  { vn: "Cô ấy đã vượt qua kỳ thi IELTS với kết quả xuất sắc ngoài mong đợi.", en: "She passed the IELTS exam with flying colours, exceeding her expectations." },
-  { vn: "Là một người địa phương, tôi hiểu thành phố này rất rõ.", en: "As a local, I know this city inside out." },
-  { vn: "Khi giáo viên giải thích về biến đổi khí hậu, bà ấy đã nói đúng trọng tâm vấn đề.", en: "When the teacher explained climate change, she really hit the nail on the head." },
-  { vn: "Tôi đã phải học qua thất bại rằng không bao giờ nên trì hoãn việc ôn tập.", en: "I had to learn the hard way that one should never procrastinate on revision." },
-  { vn: "Tôi tự coi mình là một người học nhanh khi bắt đầu những công việc mới.", en: "I consider myself a quick learner when starting new jobs." },
-  { vn: "Việc trượt bài kiểm tra đó đã cho tôi một bài học về sự chủ quan.", en: "Failing that test taught me a lesson about overconfidence." },
-  { vn: "Anh ấy luôn đứng đầu lớp vì sự nỗ lực không ngừng nghỉ của mình.", en: "He is always at the top of the class due to his relentless efforts." },
-  { vn: "Giáo viên của tôi luôn làm nhiều hơn mức cần thiết để giúp đỡ học sinh.", en: "My teacher always goes the extra mile to help the students." },
-  { vn: "Trong kỳ thi cuối kỳ, tôi thường vùi đầu vào sách vở cả ngày.", en: "During finals week, I usually bury myself in books all day long." },
-  { vn: "Đã đến lúc phải bắt đầu học nghiêm túc nếu tôi muốn vượt qua kỳ thi này.", en: "It's time to hit the books if I want to pass this exam." },
-  { vn: "Tôi thường xuyên phải thức khuya học tập để hoàn thành các bài luận.", en: "I often have to burn the midnight oil to finish my essays." },
-  { vn: "Tôi đã thức trắng đêm để học cho bài kiểm tra lịch sử sáng nay.", en: "I pulled an all-nighter to study for my history exam this morning." },
-  { vn: "Mất vài tuần để tôi học những điều cơ bản khi mới bắt đầu công việc này.", en: "It took me a few weeks to learn the ropes when I first started this job." },
-  { vn: "Nếu tôi nghỉ học quá nhiều, tôi sợ mình sẽ tụt lại so với các bạn.", en: "If I miss too many classes, I'm afraid I will fall behind in class." },
-  { vn: "Tôi đã học chậm hơn so với các bạn vì gặp vấn đề về sức khỏe.", en: "I fell behind with my studies because I had some health issues." },
-  { vn: "Số tiền tôi đóng góp chỉ là một giọt nước giữa đại dương so với những gì cần thiết.", en: "The money I contributed was just a drop in the ocean compared to what was needed." },
-  { vn: "Tôi chỉ cảm thấy mình như một hạt cát nhỏ bé giữa vũ trụ bao la này.", en: "I just feel like a grain of sand among the vastness of the universe." },
-],
-
-
-
+    { prompt: "Some people believe that university education should be free for everyone. To what extent do you agree or disagree?" },
+  ]
 };
 
-/********** VARIABLES **********/
-let currList = 1, listCopy=[], index=0;
-let currentSentence = null;
-let sentenceList = [], sentenceCopy = [];
+/********** QUẢN LÝ TỪ VỰNG **********/
+let currentWords = [];
+let originalOrder = [];
+let currentIndex = 0;
+const wordContainer = document.getElementById('wordContainer');
+const vietWord = document.getElementById('vietWord');
+const answer = document.getElementById('answer');
+const reviewBox = document.getElementById('reviewBox');
 
-/********** LOAD LIST **********/
-function loadList(){
-  currList = document.getElementById("wordList").value;
-  listCopy = [...data[currList]];
-  sentenceList = [...(speakingData[currList] || [])];
-  sentenceCopy = [...sentenceList];
-  renderWords();
-  index=-1;
-  nextWord();
-  nextSentence();
+function loadWords(topicId) {
+  currentWords = data[topicId].map((item, index) => ({...item, originalIndex: index}));
+  currentIndex = 0;
+  originalOrder = [...currentWords];
+
+  renderWordList();
+  if(currentWords.length > 0){
+    vietWord.innerText = currentWords[0].vn;
+    answer.style.display = 'none';
+  }
 }
 
-document.getElementById("wordList").onchange = loadList;
-loadList();
+function renderWordList() {
+  wordContainer.innerHTML = '';
+  currentWords.forEach((item) => {
+    const row = document.createElement('div');
+    row.className = 'word-row';
+    
+    const tick = document.createElement('input');
+    tick.type = 'checkbox';
+    tick.className = 'tick-box';
+    tick.checked = item.tick;
+    tick.addEventListener('click', (e) => {
+      e.stopPropagation();
+      item.tick = tick.checked;
+      reorderWord(item);
+      renderWordList();
+    });
 
-/********** RENDER & TICK **********/
-function renderWords(){
-  const box=document.getElementById("wordContainer");
-  box.innerHTML="";
-  let sorted=[...data[currList]].sort((a,b)=>b.tick - a.tick);
-  sorted.forEach(item=>{
-    let realIndex = data[currList].indexOf(item);
-    box.innerHTML+=`
-      <div class="word-row">
-        <span>${item.en}: ${item.vn}</span>
-        <input type="checkbox" ${item.tick?"checked":""} onclick="toggleTick(${realIndex})">
-      </div>`;
+    row.appendChild(tick);
+
+    const textSpan = document.createElement('span');
+    textSpan.style.flexGrow = "1";
+    textSpan.innerHTML = `${item.en} - ${item.vn}`;
+    row.appendChild(textSpan);
+
+    row.addEventListener('mouseenter', ()=>{ row.style.backgroundColor="#fffacd"; });
+    row.addEventListener('mouseleave', ()=>{ row.style.backgroundColor=""; });
+
+    wordContainer.appendChild(row);
   });
 }
 
-function toggleTick(realIndex){
-  data[currList][realIndex].tick = !data[currList][realIndex].tick;
-  renderWords();
-}
-
-/********** ÔN TẬP **********/
-function nextWord(){
-  const ansDiv = document.getElementById("answer");
-  ansDiv.style.display = "none";
-
-  if(listCopy.length===0){
-    document.getElementById("vietWord").textContent="🎉 Bạn đã học xong hết!";
-    return;
+function reorderWord(word) {
+  if(word.tick){
+    currentWords = currentWords.filter(w => w !== word);
+    currentWords.unshift(word);
+  } else {
+    currentWords.sort((a,b) => a.originalIndex - b.originalIndex);
   }
-  index=Math.floor(Math.random()*listCopy.length);
-  document.getElementById("vietWord").textContent=listCopy[index].vn;
 }
 
-// Bấm Đã biết → bắn pháo hoa 25 quả pop
+function nextWord(){
+  if(currentWords.length === 0) return;
+  currentIndex = (currentIndex + 1) % currentWords.length;
+  vietWord.innerText = currentWords[currentIndex].vn;
+  answer.style.display = 'none';
+}
+
 function know(){
-  firework();
-  listCopy.splice(index,1);
+  if(currentWords.length === 0) return;
+  currentWords[currentIndex].tick = true;
+  reorderWord(currentWords[currentIndex]);
+  renderWordList();
   nextWord();
+  triggerFirework();
 }
 
 function dontKnow(){
-  const ansDiv = document.getElementById("answer");
-  ansDiv.textContent = listCopy[index].en;
-  ansDiv.style.display = "block";
+  if(currentWords.length === 0) return;
+  answer.innerText = currentWords[currentIndex].en;
+  answer.style.display = 'block';
 }
 
-/********** PHẢN XẠ NÓI **********/
-function nextSentence() {
-  launchConfetti(); // lan tỏa khi click Tiếp theo
+/********** Firework effect **********/
+/********** Firework effect - Bung toả rực rỡ **********/
+function triggerFirework(){
+  const numParticles = 50; // số tia bung ra
+  const centerX = reviewBox.offsetWidth / 2;
+  const centerY = reviewBox.offsetHeight / 2;
 
-  if(sentenceCopy.length === 0){
-    sentenceCopy = [...sentenceList];
-  }
+  for(let i=0;i<numParticles;i++){
+    const fire = document.createElement('div');
+    fire.className = 'firework';
+    fire.style.background = `hsl(${Math.random()*360}, 100%, 60%)`;
+    fire.style.left = `${centerX}px`;
+    fire.style.top = `${centerY}px`;
+    
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 80 + Math.random() * 80; // độ dài tia
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
 
-  const randIndex = Math.floor(Math.random()*sentenceCopy.length);
-  currentSentence = sentenceCopy[randIndex];
-  sentenceCopy.splice(randIndex,1);
+    fire.animate([
+      { transform: 'translate(0,0) scale(1)', opacity: 1 },
+      { transform: `translate(${dx}px, ${dy}px) scale(2)`, opacity: 0 }
+    ], { duration: 800, easing: 'ease-out' });
 
-  const vietDiv = document.getElementById("vietSentence");
-  const ansDiv = document.getElementById("engAnswer");
-
-  if(currentSentence){
-    vietDiv.textContent = currentSentence.vn;
-    ansDiv.style.display = "none";
-  } else {
-    vietDiv.textContent = "Chọn topic có câu phản xạ.";
-    ansDiv.style.display = "none";
-  }
-}
-
-function showAnswer() {
-  if (currentSentence) {
-    const ansDiv = document.getElementById("engAnswer");
-    ansDiv.textContent = currentSentence.en;
-    ansDiv.style.display = "block";
+    reviewBox.appendChild(fire);
+    setTimeout(()=>{ fire.remove(); }, 800);
   }
 }
 
-/********** FIREWORK 25 quả pop (Ôn từ vựng) **********/
-function firework(){
-  const centerX = window.innerWidth/2;
-  const centerY = window.innerHeight/2;
-  for(let i=0;i<25;i++){
-    const c=document.createElement("div");
-    c.className="confetti";
-    c.style.left = centerX + "px";
-    c.style.top = centerY + "px";
-    c.style.setProperty("--x",(Math.random()-.5)*600+"px");
-    c.style.setProperty("--y",(Math.random()-.5)*600+"px");
-    c.style.backgroundColor=`hsl(${Math.random()*360},90%,60%)`;
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),900);
-  }
-}
+/********** Switch topic và load prompt essay ngẫu nhiên **********/
+const essayPromptDiv = document.getElementById('essayPrompt');
+const essayText = document.getElementById('essayText');
+const wordListSelect = document.getElementById('wordList');
 
-/********** LAUNCH CONFETTI lan tỏa (Phản xạ nói) **********/
-function launchConfetti() {
-  for (let i = 0; i < 40; i++) {
-    const conf = document.createElement("div");
-    conf.classList.add("confetti");
-    conf.style.left = Math.random() * window.innerWidth + "px";
-    conf.style.top = Math.random() * window.innerHeight + "px";
-    conf.style.setProperty("--x", (Math.random() - 0.5) * 600 + "px");
-    conf.style.setProperty("--y", (Math.random() - 0.5) * 600 + "px");
-    conf.style.background = `hsl(${Math.random() * 360},100%,60%)`;
-    document.body.append(conf);
-    setTimeout(() => conf.remove(), 900);
-  }
+wordListSelect.addEventListener('change', function() {
+  const topicId = this.value;
+  loadWords(topicId);
+
+  const prompts = writingPrompts[topicId];
+  const randomIndex = Math.floor(Math.random() * prompts.length);
+  essayPromptDiv.innerText = prompts[randomIndex].prompt;
+  essayText.value = '';
+});
+
+/********** LOAD MẶC ĐỊNH KHI MỞ PAGE **********/
+window.addEventListener('DOMContentLoaded', () => {
+  const defaultTopic = wordListSelect.value;
+  loadWords(defaultTopic);
+
+  const prompts = writingPrompts[defaultTopic];
+  const randomIndex = Math.floor(Math.random() * prompts.length);
+  essayPromptDiv.innerText = prompts[randomIndex].prompt;
+  essayText.value = '';
+});
+
+/********** Submit Essay lưu file txt **********/
+function submitEssay() {
+  const text = essayText.value.trim();
+  if(!text) { alert("Vui lòng viết bài essay trước khi Submit."); return; }
+  const blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+  const now = new Date();
+  const filename = `essay_${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}_${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}.txt`;
+  saveAs(blob, filename);
+  alert("Bài essay đã được lưu thành công!");
 }
 </script>
 
