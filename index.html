@@ -23,15 +23,16 @@ header {
   display: flex;
   flex-wrap: wrap;       
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;  /* Left luôn bên trái, center căn giữa */
   gap: 15px;
 }
 
+/* Left: icon + home text */
 .header-left {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 0 0 auto;
+  flex: 0 0 auto;          /* không bị co lại */
 }
 
 .header-left a {
@@ -46,15 +47,55 @@ header {
 .header-left a i {
   font-size: 28px;
 }
+/* Center title */
+header {
+  position: relative;
+}
 
 .header-center {
-  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
   font-size: 32px;
+  margin: 0;
+  white-space: nowrap;
 }
+/* ===== TOP SELECT ===== */
+.top-select {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 40px;
+}
+
+select {
+  padding: 8px 14px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: 2px solid #a0e7e5;
+  background-color: #e3fdfd;
+}
+
+
+
+
 
 /* MEDIA QUERY cho điện thoại */
 @media (max-width: 480px) {
+   .header-center {
+    flex-basis: 100%;
+    order: 2;
+    text-align: center;
+    position: static;
+    transform: none;
+    margin-top: 8px;
+  }
+
+  .header-left {
+    order: 1;
+  }
+}
+
   header {
     padding: 10px 15px;
   }
@@ -68,6 +109,7 @@ header {
     font-size: 22px;
   }
 }
+
 
 .top-select {
   display: flex;
