@@ -1218,8 +1218,14 @@ function nextSentence() {
 }
 
 function showAnswer() {
-  if (currentSentence) {
-    const ansDiv = document.getElementById("engAnswer");
+  if (!currentSentence) return;
+
+  const ansDiv = document.getElementById("engAnswer");
+
+  // Toggle ẩn/hiện
+  if (ansDiv.style.display === "block") {
+    ansDiv.style.display = "none";
+  } else {
     ansDiv.textContent = currentSentence.en;
     ansDiv.style.display = "block";
   }
